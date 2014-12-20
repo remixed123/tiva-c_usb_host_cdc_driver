@@ -2,6 +2,8 @@
 
 This driver currently only supports send data out the Tiva C USB Port to a device. If you requiring receive data, then you will need to update the code, which should be relatively simple once the enumeration takes place. This code is custom, so you may need to play around with it a bit to get enumeration working, as it depends on how your CDC device has set up its interfaces and endpoints. CDC devices can vary in this respect.
 
+The contents of this document and the source code was originally posted on Texas Instrument's Tiva C E2E support forum - http://e2e.ti.com/support/microcontrollers/tiva_arm/f/908/t/294099
+
 ### USB Background Information
 
 If you are only starting out with USB embedded host work, I suggest the following resources.
