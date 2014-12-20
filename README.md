@@ -22,42 +22,41 @@ Included in the respository is the following code files
 
 You will need to add the following to usbhost.h
 
-
-extern const tUSBHostClassDriver g_sUSBHostCDCClassDriver;
+    extern const tUSBHostClassDriver g_sUSBHostCDCClassDriver;
 
 Here are some of the important points for the program code. I suggest starting with one of the examples provided with Tivaware or TI-RTOS for a similar device. And then altering it to your needs.
 
 mainprogram.c
 
-// USB Headers
-#include "usblib/usblib.h"
-#include "usblib/host/usbhost.h"
-#include "usblib/host/usbhcdc.h"
+    // USB Headers
+    #include "usblib/usblib.h"
+    #include "usblib/host/usbhost.h"
+    #include "usblib/host/usbhcdc.h"
 
-// A list of available Host Class Drivers, we only add CDC driver
-static tUSBHostClassDriver const * const usbHCDDriverList[] = {
-    &g_sUSBHostCDCClassDriver,
-    &USBCDCH_eventDriver
-};
-
+    // A list of available Host Class Drivers, we only add CDC driver
+    static tUSBHostClassDriver const * const usbHCDDriverList[] = {
+        &g_sUSBHostCDCClassDriver,
+        &USBCDCH_eventDriver
+    };
 
 Add this to where you initialise the your USB CDC
 
-void USBCDCH_init(Void)
-{
-:
-:
-    // Initialize the USB stack for host mode. 
-    USBStackModeSet(0, eUSBModeForceHost, NULL);
+    void USBCDCH_init(Void)
+    {
+    :
+    :
 
-    // Register host class drivers 
-    USBHCDRegisterDrivers(0, usbHCDDriverList, numHostClassDrivers);
+        // Initialize the USB stack for host mode. 
+        USBStackModeSet(0, eUSBModeForceHost, NULL);
+    
+        // Register host class drivers 
+        USBHCDRegisterDrivers(0, usbHCDDriverList, numHostClassDrivers);
 
-    // Open an instance of the CDC host driver 
-    CDCInstance = USBHCDCDriveOpen(0, CDCCallback);
-:
-:
-}
+        // Open an instance of the CDC host driver 
+        CDCInstance = USBHCDCDriveOpen(0, CDCCallback);
+    :
+    :
+    }
 
 
 Add this to your main program loop
@@ -65,16 +64,15 @@ Add this to your main program loop
     // Call the USB stack to keep it running.
     USBHCDMain();
 
-
 Use something like this to send data out the bulk output 
 
-void singlePacket(tUSBHCDCInstance *psCDCInstance)
-{
-
-:
-:
-    int byteCount = 0;
-    byteCount = USBHCDCWrite(psCDCInstance, packetPtr, totalSize);
-:
-:
-}
+    void singlePacket(tUSBHCDCInstance *psCDCInstance)
+    {
+    
+    :
+    :
+         int byteCount = 0;
+         byteCount = USBHCDCWrite(psCDCInstance, packetPtr, totalSize);
+    :
+    :
+    }
